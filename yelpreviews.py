@@ -17,7 +17,7 @@ def get_full_reviews(town, restaurant_name, limit=10):
 
     response = requests.get(f"{base_url}?term={restaurant_name}&location={town}&limit=1", headers=headers)
     data = response.json()
-
+    print(data)
     if 'businesses' in data and data['businesses']:
         business_id = data['businesses'][0]['id']
         reviews_endpoint = f"https://api.yelp.com/v3/businesses/{business_id}/reviews?limit={limit}&sort_by=relevance"
