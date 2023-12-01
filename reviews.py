@@ -31,11 +31,11 @@ def list_of_reviews(businessname):
     pass
 
 def time_of_review(businessname):
-    
+    pass
 
 def main():
-#    search_example()
-   get_reviews("juniper-wellesley")
+    #    search_example()
+   get_reviews("trulys-wellesley")
           
 if __name__ == "__main__":
     main()
