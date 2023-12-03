@@ -38,6 +38,8 @@ def get_lat_long(place_name: str) -> tuple[str, str]:
     #3. set data euqal to the get_json function on the URL
     #4. print, within the data, get to the features line, get to the first element, go to the geometry dictionary, go to the coordinates list, select the second element, which is the latitude
     #5. same as above, except access the first element, which is the longitude at the end 
+    MAPBOX_TOKEN = 'pk.eyJ1IjoibnJhZG1hbjEiLCJhIjoiY2xvcWR3NTRvMGZrbDJsbXpiOTltbXljbCJ9.K-LMaJZ0YTq4hvWv-wklbA'
+    MAPBOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places"
     query = place_name.replace(' ', '%20')
     url = f"{MAPBOX_BASE_URL}/{query}.json?access_token={MAPBOX_TOKEN}"
     data = get_json(url)
