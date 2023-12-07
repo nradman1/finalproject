@@ -3,6 +3,9 @@ TICKETMASTER_API_KEY = "YOUR_TICKETMASTER_API_KEY"
 AMC_API_KEY = "YOUR_AMC_API_KEY"
 GOOGLE_MAPS_API_KEY = "YOUR_GOOGLE_MAPS_API_KEY"
 
+PLACES_NEARBY_API_KEY = ""
+PLACES_NEARBY_BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+
 MAPBOX_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places"
 MAPBOX_TOKEN = 'pk.eyJ1IjoibnJhZG1hbjEiLCJhIjoiY2xvcWR3NTRvMGZrbDJsbXpiOTltbXljbCJ9.K-LMaJZ0YTq4hvWv-wklbA'
 

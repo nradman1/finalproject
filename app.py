@@ -32,7 +32,7 @@ def restaurant_search():
         latitude, longitude = get_lat_long(city)
 
         # Get nearest restaurants based on the selected price range
-        restaurants = get_nearest_restaurants(YELP_API_KEY, latitude, longitude, radius_miles=5)
+        restaurants = get_nearest_restaurants(latitude, longitude, radius_miles=5)
 
         # Filter restaurants based on the selected price range
         restaurants = [restaurant for restaurant in restaurants if restaurant.get('price') == price_range]

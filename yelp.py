@@ -31,7 +31,6 @@ def get_lat_long(place_name: str) -> tuple[str, str]:
     """
     Given a place name or address, return a (latitude, longitude) tuple with the coordinates of the given place.
 
-    See https://docs.mapbox.com/api/search/geocoding/ for Mapbox Geocoding API URL formatting requirements.
     """
     #1. Replace the spaces in the place name, typical in URL coding
     #2. construct a URL to make the API request to Mapbox. Takes the URL name and the place name, and utilizes the access token for the API request in order to return the data in json format
@@ -50,20 +49,12 @@ def get_lat_long(place_name: str) -> tuple[str, str]:
     return latitude, longitude 
 
 
-def get_nearest_restaurants(api_key, latitude, longitude, radius_miles, sort_by='rating'):
+def get_nearest_restaurants(latitude, longitude, radius_miles, sort_by='rating'):
     """
     Get a list of restaurants from Yelp within the specified latitude, longitude, and radius.
 
-    Parameters:
-    - api_key (str): Yelp API key.
-    - latitude (float): Latitude for which to search for restaurants.
-    - longitude (float): Longitude for which to search for restaurants.
-    - radius_miles (float): The search radius in miles.
-    - sort_by (str): Sorting criteria for the results. Default is 'rating'.
-
-    Returns:
-    - list: A list of dictionaries representing Yelp restaurant details.
     """
+    api_key = YELP_API_KEY
     base_url = 'https://api.yelp.com/v3/businesses/search'
     url = f'{base_url}?term=restaurants&latitude={latitude}&longitude={longitude}&radius={int(radius_miles * 1609.34)}&sort_by={sort_by}'
     headers = {'Authorization': f'Bearer {api_key}'}
@@ -81,11 +72,6 @@ def ranked(restaurants):
     """
     Rank restaurants by review rating and display the price.
 
-    Parameters:
-    - restaurants (list): A list of dictionaries representing Yelp restaurant details.
-
-    Returns:
-    - None
     """
     if not restaurants:
         print("No restaurants provided.")
@@ -102,18 +88,11 @@ def ranked(restaurants):
 def sorted_by_cuisine(restaurants):
     """
     Sort restaurants by cuisine type and display the details.
-
-    Parameters:
-    - restaurants (list): A list of dictionaries representing Yelp restaurant details.
-
-    Returns:
-    - None
     """
     if not restaurants:
         print("No restaurants provided.")
         return
 
-    # Sort restaurants by cuisine type
     sorted_restaurants = sorted(restaurants, key=lambda x: x.get('categories', [{'title': 'Other'}])[0]['title'])
 
     print("\nSorted Restaurants (by cuisine):")
@@ -123,25 +102,16 @@ def sorted_by_cuisine(restaurants):
         cuisine = restaurant.get('categories', [{'title': 'Other'}])[0]['title']
         print(f"{restaurant['name']} - Rating: {rating}, Price: {price}, Cuisine: {cuisine}")
 
-#May just cut this whole entire thing as it does not really work wel l
-def restaurants_open(api_key, town, radius_miles, day, time, sort_by='rating'):
+#May just cut this whole entire thing as it does not really work well
+def restaurants_open(town, radius_miles, day, time, sort_by='rating'):
     """
     Get a list of restaurants that are open within a ±2 hour window from the specified day and time from Yelp.
 
-    Parameters:
-    - api_key (str): Yelp API key.
-    - town (str): Name of the town or city.
-    - radius_miles (float): The search radius in miles.
-    - sort_by (str): Sorting criteria for the results. Default is 'rating'.
-    - day (str): Day of the week (e.g., "Monday").
-    - time (str): Time in the format HH:MM.
-
-    Returns:
-    - None
     """
+    api_key = YELP_API_KEY
     latitude, longitude = get_lat_long(town)
     
-    nearest_restaurants = get_nearest_restaurants(api_key, latitude, longitude, radius_miles, sort_by)
+    nearest_restaurants = get_nearest_restaurants(latitude, longitude, radius_miles, sort_by)
 
     # Convert input time to datetime object
     input_time = datetime.strptime(time, '%H:%M')
@@ -175,7 +145,7 @@ def main():
 
     # Removed the check for latitude and longitude
     radius_miles = 1  # Replace with the desired radius
-    restaurants = get_nearest_restaurants(YELP_API_KEY, latitude, longitude, radius_miles)
+    restaurants = get_nearest_restaurants(latitude, longitude, radius_miles)
 
     if restaurants:
         print("\nNearest Restaurants (sorted by rating):")
@@ -192,7 +162,7 @@ def main():
     day = 'Tuesday'
     time = '18:30'
 
-    open_restaurants = restaurants_open(api_key, town, radius_miles, day, time, sort_by='rating')
+    open_restaurants = restaurants_open(town, radius_miles, day, time, sort_by='rating')
 
     open_restaurants
 
