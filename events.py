@@ -30,14 +30,30 @@ def formatted_data(city, date):
     """
     This function formats the data form the def get_events_data function into a list of functions more easy to read
     """
+    # events_list = get_events_data(city, date)
+    # for event in events_list:
+    #     title = event[0]
+    #     event_details = event[1]
+    #     start_time = event_details['start_time']
+    #     address = ', '.join(event_details['address'])
+
+    #     print(f"Event Name: {title} - Start Time: {start_time} - Address: {address}\n")    
     events_list = get_events_data(city, date)
+    formatted_events = []
+
     for event in events_list:
         title = event[0]
         event_details = event[1]
         start_time = event_details['start_time']
         address = ', '.join(event_details['address'])
 
-        print(f"Event Name: {title} - Start Time: {start_time} - Address: {address}\n")    
+        formatted_events.append({
+            'title': title,
+            'start_time': start_time,
+            'address': address
+        })
+
+    return formatted_events
 
 def event_interested_in(city, date, event_name):
     """

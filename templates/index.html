@@ -46,8 +46,11 @@
 
   <body>
     <h1>
-      <!-- <marquee behavior = "scroll" direction = "left" scrollamount="15"> Welcome, This Helpful App Can Help You Find The Nearest MBTA Station
-      </marquee> -->
+      Plan a Date
+    </h1>
+    <h1>
+      Choose From One Of The Options Below To Plan Your Date
+
     </h1>
     <h2>
       Use The Search Bar Below To Find Events In a Certain City on a Certain Date
@@ -56,7 +59,22 @@
       <label>City: <input type="text" id = "city" name="city" placeholder="Enter a City"/></label>
       <label> Date: <input type="date" id = "date" name = "date" placeholder="Enter a date"/></label>
       <button type="submit">Submit</button>
-
     </form> 
+    <h2>
+      Use The Search Bar Below to Find a Restaurant
+    </h2>
+    
+    <form action="/restaurant_search" method="post">
+      <label for="city">City:</label>
+      <input type="text" id="city" name="city" required>
+      <label for="price_range">Price Range:</label>
+      <select id="price_range" name="price_range" required>
+          <option value="$">Low ($)</option>
+          <option value="$$">Moderate ($$)</option>
+          <option value="$$$">High ($$$)</option>
+          <option value="$$$$">Very High ($$$$)</option>
+      </select>
+      <button type="submit">Search</button>
+  </form>
   </body>
 </html>
