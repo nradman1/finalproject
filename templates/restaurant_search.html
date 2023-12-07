@@ -41,11 +41,42 @@
     {% if restaurants %}
         <ul>
             {% for restaurant in restaurants %}
-                <li>{{ restaurant.name }} - Rating: {{ restaurant.rating }}, Price: {{ restaurant.price }}</li>
+                <li>
+                    {{ restaurant.name }} - Rating: {{ restaurant.rating }}, Price: {{ restaurant.price }},
+                    Address: {{ restaurant.location.address1 }}, {{ restaurant.location.city }},
+                    {{ restaurant.location.state }} {{ restaurant.location.zip_code }},
+                    <a href="{{ restaurant.url }}" target="_blank">Yelp Reviews</a>
+                    <ul>
+                        {% for review in restaurant.reviews %}
+                            <li>{{ review }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
             {% endfor %}
         </ul>
     {% else %}
         <p>No restaurants found for the specified criteria.</p>
     {% endif %}
+    <!-- <h1>Restaurants in {{ city }}</h1>
+  {% if restaurants %}
+  <ul>
+    {% for restaurant in restaurants %}
+    <li>
+      <h2>{{ restaurant.name }} - Rating: {{ restaurant.rating }}</h2>
+      <p>Price: {{ restaurant.price | default('N/A') }}</p>
+      <p>Reviews:</p>
+      <ul>
+        {% for review in restaurant.reviews %}
+        <li>{{ review }}</li>
+        {% endfor %}
+      </ul>
+      <p><a href="{{ restaurant.url }}" target="_blank">Read more on Yelp</a></p>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No restaurants found for the specified criteria.</p>
+  {% endif %} -->
+
   </body>
   </html>
