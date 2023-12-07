@@ -1,4 +1,3 @@
-
 import requests
 
 def get_movie_theaters_data(query, location):

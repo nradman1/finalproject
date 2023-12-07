@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Details</title>
+  <style>
+   p{
+      font-family: 'Times New Roman', Times, serif;
+      font-size: large;
+    }
+    h1{
+      font-size: xx-large;
+      font-weight: bold;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      text-align: center;
+    }
+    h2{
+      font-size: x-large;
+      font-weight: bold;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      text-align: center;
+    }
+    button{
+    background-color: whitesmoke;
+    color: black;
+    font-size: large;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: block;
+    margin:auto;
+  }
+   button:hover{
+    background-color: lightblue;
+   }
+  </style>
+  </head>
+   
+  <body>
+    {% for event in events_data %}
+            <li>
+                <strong>{{ event.title }}</strong><br> Start Time: {{ event.start_time }}<br> Address: {{ event.address }}<br>
+                <a href="{{ url_for('event_details', event_id=event.id) }}" target="_blank">Event Link</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <!-- <button onclick="goBack()">Complete another search</button>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script> -->
+  </body>
+  </html>

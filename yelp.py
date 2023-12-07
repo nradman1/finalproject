@@ -49,25 +49,45 @@ def get_lat_long(place_name: str) -> tuple[str, str]:
     return latitude, longitude 
 
 
-def get_nearest_restaurants(latitude, longitude, radius_miles, sort_by='rating'):
-    """
-    Get a list of restaurants from Yelp within the specified latitude, longitude, and radius.
+# def get_nearest_restaurants(latitude, longitude, radius_miles, sort_by='rating'):
+#     """
+#     Get a list of restaurants from Yelp within the specified latitude, longitude, and radius.
 
-    """
+#     """
+#     api_key = YELP_API_KEY
+#     base_url = 'https://api.yelp.com/v3/businesses/search'
+#     url = f'{base_url}?term=restaurants&latitude={latitude}&longitude={longitude}&radius={int(radius_miles * 1609.34)}&sort_by={sort_by}'
+#     headers = {'Authorization': f'Bearer {api_key}'}
+
+#     response = requests.get(url, headers=headers)
+#     data = response.json()
+
+#     if 'businesses' in data:
+#         return data['businesses']
+#     else:
+#         print(f"Error retrieving data from Yelp API. Response: {data}")
+#         return []
+def get_nearest_restaurants(city, radius_miles=5, sort_by='rating'):
     api_key = YELP_API_KEY
+    latitude, longitude = get_lat_long(city)
     base_url = 'https://api.yelp.com/v3/businesses/search'
     url = f'{base_url}?term=restaurants&latitude={latitude}&longitude={longitude}&radius={int(radius_miles * 1609.34)}&sort_by={sort_by}'
     headers = {'Authorization': f'Bearer {api_key}'}
 
     response = requests.get(url, headers=headers)
     data = response.json()
-
+    print(data)
     if 'businesses' in data:
+        # Add address, Yelp URL, and reviews to each restaurant
+        for restaurant in data['businesses']:
+            restaurant['location']['address'] = f"{restaurant['location']['address1']}, {restaurant['location']['city']}, {restaurant['location']['state']} {restaurant['location']['zip_code']}"
+            restaurant['url'] = restaurant['url']  # Yelp URL
+            restaurant['reviews'] = get_reviews(restaurant['id'])  # Reviews
         return data['businesses']
     else:
         print(f"Error retrieving data from Yelp API. Response: {data}")
         return []
-
+    
 def ranked(restaurants):
     """
     Rank restaurants by review rating and display the price.
@@ -102,41 +122,46 @@ def sorted_by_cuisine(restaurants):
         cuisine = restaurant.get('categories', [{'title': 'Other'}])[0]['title']
         print(f"{restaurant['name']} - Rating: {rating}, Price: {price}, Cuisine: {cuisine}")
 
-#May just cut this whole entire thing as it does not really work well
-def restaurants_open(town, radius_miles, day, time, sort_by='rating'):
+def get_nearest_restaurants(city, radius_miles=5, sort_by='rating'):
     """
-    Get a list of restaurants that are open within a ±2 hour window from the specified day and time from Yelp.
-
+    Get a list of restaurants from Yelp within the specified city, radius, and sorted by the specified criteria.
     """
     api_key = YELP_API_KEY
-    latitude, longitude = get_lat_long(town)
+    latitude, longitude = get_lat_long(city)
+    base_url = 'https://api.yelp.com/v3/businesses/search'
+    url = f'{base_url}?term=restaurants&latitude={latitude}&longitude={longitude}&radius={int(radius_miles * 1609.34)}&sort_by={sort_by}'
+    headers = {'Authorization': f'Bearer {api_key}'}
+
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
+    if 'businesses' in data:
+        # Iterate through businesses and add Yelp URL and reviews for each
+        for restaurant in data['businesses']:
+            restaurant_id = restaurant.get('id')
+            if restaurant_id:
+                restaurant['url'] = f'https://www.yelp.com/biz/{restaurant_id}'
+                restaurant['reviews'] = get_reviews(restaurant_id)[:3]  # Displaying the first 3 reviews
+
+        return data['businesses']
+    else:
+        print(f"Error retrieving data from Yelp API. Response: {data}")
+        return []
     
-    nearest_restaurants = get_nearest_restaurants(latitude, longitude, radius_miles, sort_by)
+def get_reviews(restaurant_id):
+    api_key = YELP_API_KEY
+    base_url = f'https://api.yelp.com/v3/businesses/{restaurant_id}/reviews'
+    url = f'{base_url}'
+    headers = {'Authorization': f'Bearer {api_key}'}
 
-    # Convert input time to datetime object
-    input_time = datetime.strptime(time, '%H:%M')
+    response = requests.get(url, headers=headers)
+    data = response.json()
 
-    # Define time window (+-2 hours)
-    start_time = (input_time - timedelta(hours=2)).time()
-    end_time = (input_time + timedelta(hours=2)).time()
-
-    # Simplified list comprehension to filter out closed restaurants within the specified time window
-    open_restaurants = [restaurant for restaurant in nearest_restaurants if not any(
-        day['day'] == day and (day['start'] > end_time.strftime('%H:%M') or day['end'] < start_time.strftime('%H:%M')) for day in restaurant.get('hours', [])
-    )]
-
-    if not open_restaurants:
-        print("No open restaurants found.")
-        return
-
-    print("\nThe Restaurants that are open within 2 hours of your ideal time:")
-    for restaurant in open_restaurants:
-        rating = restaurant.get('rating', 'N/A')
-        price = restaurant.get('price', 'N/A')
-        cuisine = restaurant.get('cuisine', 'N/A')
-        name = restaurant['name']
-        print(f"{name} - Rating: {rating}, Price: {price}, Cuisine: {cuisine}")
-
+    if 'reviews' in data:
+        return [review['text'] for review in data['reviews']]
+    else:
+        print(f"Error retrieving reviews from Yelp API. Response: {data}")
+        return []
 
 def main():
     # Example usage:
@@ -162,9 +187,9 @@ def main():
     day = 'Tuesday'
     time = '18:30'
 
-    open_restaurants = restaurants_open(town, radius_miles, day, time, sort_by='rating')
+    #open_restaurants = restaurants_open(town, radius_miles, day, time, sort_by='rating')
 
-    open_restaurants
+    #open_restaurants
 
 if __name__ == "__main__":
     main()

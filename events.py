@@ -1,8 +1,7 @@
 import requests
-
 def get_events_data(city, date):
     """
-    This event takes a city name and date, and grabs data from google events on that day
+    This function takes a city name and date, and grabs data from Google events on that day
     """
     url = f"https://serpapi.com/search.json?engine=google_events&q=Events+in+{city}&hl=en&gl=us&date:{date}&api_key=0641c23b5695d5fe7a2586f40b784f59bbc6392ccf71d37e112778560f327e7e"
     response = requests.get(url)
@@ -16,44 +15,37 @@ def get_events_data(city, date):
             address = event_result.get('address', [])
             link = event_result.get('link', 'N/A')
 
-            event_info = [title, {
+            event_info = {
+                'title': title,
                 'start_time': start_time,
                 'address': address,
                 'link': link
-            }]
+            }
 
             events_data.append(event_info)
 
-        return events_data
+    return events_data
 
 def formatted_data(city, date):
     """
-    This function formats the data form the def get_events_data function into a list of functions more easy to read
+    This function formats the data from the get_events_data function into a list of dictionaries for easier reading
     """
-    # events_list = get_events_data(city, date)
-    # for event in events_list:
-    #     title = event[0]
-    #     event_details = event[1]
-    #     start_time = event_details['start_time']
-    #     address = ', '.join(event_details['address'])
-
-    #     print(f"Event Name: {title} - Start Time: {start_time} - Address: {address}\n")    
     events_list = get_events_data(city, date)
     formatted_events = []
 
     for event in events_list:
-        title = event[0]
-        event_details = event[1]
-        start_time = event_details['start_time']
-        address = ', '.join(event_details['address'])
+        title = event['title']
+        start_time = event['start_time']
+        address = ', '.join(event['address'])
 
         formatted_events.append({
             'title': title,
             'start_time': start_time,
-            'address': address
+            'address': address,
+            'link': event.get('link', '')  # Add this line to handle cases where 'link' may be missing
         })
 
-    return formatted_events
+    return formatted_events     
 
 def event_interested_in(city, date, event_name):
     """

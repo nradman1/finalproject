@@ -60,20 +60,12 @@
       <label> Date: <input type="date" id = "date" name = "date" placeholder="Enter a date"/></label>
       <button type="submit">Submit</button>
     </form> 
-    <h2>
-      Use The Search Bar Below to Find a Restaurant
-    </h2>
     
+   
+    <h2>Use The Search Bar Below to Find a Restaurant</h2>
     <form action="/restaurant_search" method="post">
       <label for="city">City:</label>
       <input type="text" id="city" name="city" required>
-      <label for="price_range">Price Range:</label>
-      <select id="price_range" name="price_range" required>
-          <option value="$">Low ($)</option>
-          <option value="$$">Moderate ($$)</option>
-          <option value="$$$">High ($$$)</option>
-          <option value="$$$$">Very High ($$$$)</option>
-      </select>
       <button type="submit">Search</button>
   </form>
   </body>

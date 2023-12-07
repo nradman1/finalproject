@@ -5,61 +5,67 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Event Details</title>
-  <style>
-   p{
-      font-family: 'Times New Roman', Times, serif;
-      font-size: large;
-    }
-    h1{
-      font-size: xx-large;
-      font-weight: bold;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      text-align: center;
-    }
-    h2{
-      font-size: x-large;
-      font-weight: bold;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      text-align: center;
-    }
-    button{
-    background-color: whitesmoke;
-    color: black;
-    font-size: large;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    display: block;
-    margin:auto;
-  }
-   button:hover{
-    background-color: lightblue;
-   }
-  </style>
+    <style>
+      p {
+        font-family: 'Times New Roman', Times, serif;
+        font-size: large;
+      }
+      h1 {
+        font-size: xx-large;
+        font-weight: bold;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-align: center;
+      }
+      h2 {
+        font-size: x-large;
+        font-weight: bold;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-align: center;
+      }
+      button {
+        background-color: whitesmoke;
+        color: black;
+        font-size: large;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        display: block;
+        margin: auto;
+      }
+      button:hover {
+        background-color: lightblue;
+      }
+    </style>
   </head>
-   
+
   <body>
+    
+<body>
+  <h1>Events in {{ city }}</h1>
 
-    <h1>Events in {{ city }}</h1>
+  {% if events_data %}
+  <ul>
+      {% for event in events_data %}
+      <li>
+          <strong>{{ event.title }}</strong><br>
+          Start Time: {{ event.start_time }}<br>
+          Address: {{ event.address }}<br>
+          <!-- Check if the 'link' attribute exists and is not empty -->
+          {% if event.link %}
+              <a href="{{ event.link }}" target="_blank">Event Link</a>
+          {% else %}
+              No link available
+          {% endif %}
+      </li>
+      {% endfor %}
+  </ul>
+  {% else %}
+  <p>No events found for the specified city and date.</p>
+  {% endif %}
 
-    {% if events_data %}
-        <ul>
-            {% for event in events_data %}
-                <li>
-                    <strong>{{ event.title }}</strong><br>
-                    Start Time: {{ event.start_time }}<br>
-                    Address: {{ event.address }}<br>
-                    <a href="{{ event.link }}" target="_blank">Event Link</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No events found for the specified city and date.</p>
-    {% endif %}
-
-    <button onclick="goBack()">Complete another search</button>
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
+  <button onclick="goBack()">Complete another search</button>
+  <script>
+      function goBack() {
+          window.history.back();
+      }
+  </script>
   </body>
-  </html>
+</html>
