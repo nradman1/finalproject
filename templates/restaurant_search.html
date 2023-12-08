@@ -1,82 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Event Details</title>
-  <style>
-   p{
-      font-family: 'Times New Roman', Times, serif;
-      font-size: large;
-    }
-    h1{
-      font-size: xx-large;
-      font-weight: bold;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      text-align: center;
-    }
-    h2{
-      font-size: x-large;
-      font-weight: bold;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      text-align: center;
-    }
-    button{
-    background-color: whitesmoke;
-    color: black;
-    font-size: large;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    display: block;
-    margin:auto;
-  }
-   button:hover{
-    background-color: lightblue;
-   }
-  </style>
-  </head>
-   
-  <body>
-    <h1>Restaurants in {{ city }} with Price Range: {{ price_range }}</h1>
-    {% if restaurants %}
-        <ul>
-            {% for restaurant in restaurants %}
-                <li>
-                    {{ restaurant.name }} - Rating: {{ restaurant.rating }}, Price: {{ restaurant.price }},
-                    Address: {{ restaurant.location.address1 }}, {{ restaurant.location.city }},
-                    {{ restaurant.location.state }} {{ restaurant.location.zip_code }},
-                    <a href="{{ restaurant.url }}" target="_blank">Yelp Reviews</a>
-                    <ul>
-                        {% for review in restaurant.reviews %}
-                            <li>{{ review }}</li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No restaurants found for the specified criteria.</p>
-    {% endif %}
-    <!-- <h1>Restaurants in {{ city }}</h1>
-  {% if restaurants %}
-  <ul>
-    {% for restaurant in restaurants %}
-    <li>
-      <h2>{{ restaurant.name }} - Rating: {{ restaurant.rating }}</h2>
-      <p>Price: {{ restaurant.price | default('N/A') }}</p>
-      <p>Reviews:</p>
-      <ul>
-        {% for review in restaurant.reviews %}
-        <li>{{ review }}</li>
-        {% endfor %}
-      </ul>
-      <p><a href="{{ restaurant.url }}" target="_blank">Read more on Yelp</a></p>
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>No restaurants found for the specified criteria.</p>
-  {% endif %} -->
+    <style>
+        p {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: large;
+        }
 
-  </body>
-  </html>
+        h1 {
+            font-size: xx-large;
+            font-weight: bold;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: x-large;
+            font-weight: bold;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-align: left;
+        }
+
+        button {
+            background-color: whitesmoke;
+            color: black;
+            font-size: large;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            display: block;
+            margin: auto;
+        }
+
+        button:hover {
+            background-color: lightblue;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        .restaurant-info {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .yelp-link {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Restaurants in {{ city }}</h1>
+    <button onclick="goBack()">Complete another search</button>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    {% if restaurants %}
+    <ul>
+        {% for restaurant in restaurants %}
+        <li>
+            <h2> <span class="restaurant-name">{{ restaurant.name }}</span></h2>
+            <p class="restaurant-info">Rating: {{ restaurant.rating }}</p>
+            <p class="restaurant-info">Address: {{ restaurant.location.address1 }}, {{ restaurant.location.city }}
+                {{ restaurant.location.state }} {{ restaurant.location.zip_code }}</p>
+            {% if restaurant.price %}
+            <p class="restaurant-info">Price: {{ restaurant.price }}</p>
+            {% endif %}
+            <a href="{{ restaurant.url }}" class="yelp-link" target="_blank">Yelp</a>
+            <ul>
+                {% for review in restaurant.reviews %}
+                <li>{{ review }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No restaurants found for the specified criteria.</p>
+    {% endif %}
+    <button onclick="goBack()">Complete another search</button>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>
