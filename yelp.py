@@ -49,24 +49,6 @@ def get_lat_long(place_name: str) -> tuple[str, str]:
     return latitude, longitude 
 
 
-# def get_nearest_restaurants(latitude, longitude, radius_miles, sort_by='rating'):
-#     """
-#     Get a list of restaurants from Yelp within the specified latitude, longitude, and radius.
-
-#     """
-#     api_key = YELP_API_KEY
-#     base_url = 'https://api.yelp.com/v3/businesses/search'
-#     url = f'{base_url}?term=restaurants&latitude={latitude}&longitude={longitude}&radius={int(radius_miles * 1609.34)}&sort_by={sort_by}'
-#     headers = {'Authorization': f'Bearer {api_key}'}
-
-#     response = requests.get(url, headers=headers)
-#     data = response.json()
-
-#     if 'businesses' in data:
-#         return data['businesses']
-#     else:
-#         print(f"Error retrieving data from Yelp API. Response: {data}")
-#         return []
 def get_nearest_restaurants(city, radius_miles=5, sort_by='rating'):
     api_key = YELP_API_KEY
     latitude, longitude = get_lat_long(city)
