@@ -4,33 +4,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Find events neare a city on a specific date</title>
+    <title>Find events near a city on a specific date</title>
   <style>
     p{
-      font-family: 'Times New Roman', Times, serif;
+      font-family: Arial, Helvetica, sans-serif;
       font-size: large;
     }
     h1{
       font-size: xx-large;
       font-weight: bold;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       text-align: center;
       background-color: black;
       color: whitesmoke;
     }
     button{
       background-color: lightgray;
+      font-size: large;
     }
     button:hover{
       background-color: lightblue;
+      font-size: large;
     }
     h2{
+      margin-top: 100px;
       font-size: x-large;
       font-weight: bold;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       text-align: center;
     }
     form{
+      margin-top: 50px;
       text-align: center;
       font-size: large;    
       font-weight: 900;
@@ -46,26 +50,24 @@
 
   <body>
     <h1>
-      Plan a Date
+    Plan a Perfect Date
     </h1>
     <h1>
-      Choose From One Of The Options Below To Plan Your Date
-
+    Choose From One Of The Options Below To Plan Your Date
     </h1>
     <h2>
-      Use The Search Bar Below To Find Events In a Certain City on a Certain Date
+      Use The Search Bar Below To Find Events
     </h2>
     <form method="post" action="/events" >
       <label>City: <input type="text" id = "city" name="city" placeholder="Enter a City"/></label>
       <label> Date: <input type="date" id = "date" name = "date" placeholder="Enter a date"/></label>
-      <button type="submit">Submit</button>
+      <button type="submit">Search</button>
     </form> 
     
-   
     <h2>Use The Search Bar Below to Find a Restaurant</h2>
     <form action="/restaurant_search" method="post">
       <label for="city">City:</label>
-      <input type="text" id="city" name="city" required>
+      <input type="text" id="city" name="city" placeholder="Enter a City" required>
       <button type="submit">Search</button>
   </form>
   </body>

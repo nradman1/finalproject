@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect
-from events import formatted_data, event_interested_in, get_events_data
-from yelp import get_nearest_restaurants, get_lat_long
-from config import YELP_API_KEY
+from events import formatted_data
+from yelp import get_nearest_restaurants
 import requests
 
 app = Flask(__name__)
